@@ -5,8 +5,11 @@
 package it.polito.tdp.extflightdelays;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
-
 import it.polito.tdp.extflightdelays.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +51,15 @@ public class ExtFlightDelaysController {
     @FXML
     void doCreaGrafo(ActionEvent event) {
 
+    	model.creaGrafo();
+    	
+    	//Aggiungo stati al menù a tendina
+    	List<String> states = new ArrayList<>();
+    	for (String s : model.getGrafo().vertexSet()) states.add(s);
+    	//Ordine alfabetico
+    	Collections.sort(states);
+    	cmbBoxStati.getItems().addAll(states);
+    	
     }
 
     @FXML
@@ -57,6 +69,13 @@ public class ExtFlightDelaysController {
 
     @FXML
     void doVisualizzaVelivoli(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	
+    	String state = cmbBoxStati.getValue();
+    	List<String> result = model.getViciniPesati(state);
+    	
+    	for (String s : result) txtResult.appendText(s);
 
     }
     

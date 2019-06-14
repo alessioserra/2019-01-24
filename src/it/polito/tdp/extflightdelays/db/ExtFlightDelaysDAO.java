@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jgrapht.graph.ListenableDirectedGraph;
+
+import it.polito.tdp.extflightdelays.model.Accoppiamenti;
 import it.polito.tdp.extflightdelays.model.Airline;
 import it.polito.tdp.extflightdelays.model.Airport;
 import it.polito.tdp.extflightdelays.model.Flight;
@@ -115,4 +118,40 @@ public class ExtFlightDelaysDAO {
 			throw new RuntimeException("Error Connection Database");
 		}
 	}
+	
+	
+	/**
+	 * Trovo tutti gli archi
+	 * @return lista di accoppiamenti con state1, state2 e peso dell'arco compreso
+	 */
+	public List<Accoppiamenti> loadAllAccoppiamenti() {
+		
+		final String sql = "SELECT COUNT(DISTINCT(TAIL_NUMBER)) AS CNT, a1.STATE AS state1, a2.STATE AS state2 " + 
+				           "FROM flights f1, airports a1, airports a2 "+ 
+				           "WHERE f1.ORIGIN_AIRPORT_ID=a1.ID AND f1.DESTINATION_AIRPORT_ID=a2.ID AND a1.STATE<>a2.STATE "+ 
+				           "GROUP BY a1.STATE, a2.STATE";
+		List<Accoppiamenti> result = new LinkedList<Accoppiamenti>();
+
+		try {
+			Connection conn = ConnectDB.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+
+			Accoppiamenti acc = new Accoppiamenti(rs.getString("state1"),rs.getString("state2"), rs.getDouble("CNT"));	
+
+			result.add(acc);
+			}
+
+			conn.close();
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Errore connessione al database");
+			throw new RuntimeException("Error Connection Database");
+		}
+	}
+	
 }
