@@ -128,8 +128,8 @@ public class ExtFlightDelaysDAO {
 		
 		final String sql = "SELECT COUNT(DISTINCT(TAIL_NUMBER)) AS CNT, a1.STATE AS state1, a2.STATE AS state2 " + 
 				           "FROM flights f1, airports a1, airports a2 "+ 
-				           "WHERE f1.ORIGIN_AIRPORT_ID=a1.ID AND f1.DESTINATION_AIRPORT_ID=a2.ID AND a1.STATE<>a2.STATE "+ 
-				           "GROUP BY a1.ID, a2.ID"; //Raggruppo per ID per il "cappio"
+				           "WHERE f1.ORIGIN_AIRPORT_ID=a1.ID AND f1.DESTINATION_AIRPORT_ID=a2.ID AND a1.ID <> a2.ID "+ 
+				           "GROUP BY a1.STATE, a2.STATE"; //Raggruppo per ID per il "cappio"
 		List<Accoppiamenti> result = new LinkedList<Accoppiamenti>();
 
 		try {

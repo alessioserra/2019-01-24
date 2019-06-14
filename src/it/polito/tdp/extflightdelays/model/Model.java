@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
+import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import it.polito.tdp.extflightdelays.db.ExtFlightDelaysDAO;
 
@@ -27,7 +27,7 @@ public class Model {
 	
 	public void creaGrafo() {
 		
-		grafo = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+		grafo = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 		
 		//Aggiungo tutti gli stati
 		List<String> states = dao.loadAllStates();
