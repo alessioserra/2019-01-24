@@ -26,7 +26,8 @@ public class Model {
 	}
 	
 	public void creaGrafo() {
-		
+		 
+		           //Cappio -> Self-Loops
 		grafo = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 		
 		//Aggiungo tutti gli stati
